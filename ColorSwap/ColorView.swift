@@ -9,21 +9,26 @@ import SwiftUI
 
 struct ColorView: View {
     
-    @State var mainColor: Color
+    var colorData : [Double]
     
     var body: some View {
         Button(action: {
-            UIPasteboard.general.string = "R: 255 G: 0 B: 0"
+            UIPasteboard.general.string = "R: \(colorData[0]) G: \(colorData[1]) B: \(colorData[2])"
         }, label: {
             VStack{
                 Rectangle()
-                    .foregroundColor(mainColor)
+                    .foregroundColor(getColor())
                     .aspectRatio(1.0, contentMode: .fit)
+                    .animation(.easeOut(duration: 1), value: getColor())
             }
         })
+    }
+    
+    func getColor() -> Color {
+        return Color(red: colorData[0] / 255, green: colorData[1] / 255, blue: colorData[2] / 255)
     }
 }
 
 #Preview {
-    ColorView(mainColor: Color.red)
+    ColorView(colorData: [255,255,255])
 }
